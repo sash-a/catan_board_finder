@@ -2,18 +2,19 @@ include("hex.jl")
 include("board.jl")
 
 using OffsetArrays
-import .Game.Board, .Game.Hexagon.Hex, .Game.Hexagon.Coord, .Game.adj
+using .Game
 
-hexs = OffsetArray{Hex}(undef, -2:2, -2:2, -2:2)
-for x in -2:2
-    for y in -2:2
-        for z in -2:2
-            hexs[x,y,z] = Hex(string(x, y, z), Coord(x, y, z))
+hexs = OffsetArray{Game.Hex}(undef, -3:3, -3:3, -3:3)  # -3 -> 3 to accomodate bounds errors
+for x in -3:3
+    for y in -3:3
+        for z in -3:3
+            hexs[x,y,z] = Game.Hex(string(x, y, z), Game.Coord(x, y, z), Game.Hexagon.brick, 1)
         end
     end
 end
 
 board = Board(hexs)
 
-c = Coord(1, 0, 1)
-println(adj(c, board))
+c = Game.Coord(2, 0, -2)
+println(Game.adj(c, board))
+println(Game.on(c))
