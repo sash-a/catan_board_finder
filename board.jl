@@ -2,13 +2,17 @@ module Game
 
 using Base
 using OffsetArrays
-using ..Hexagon: Coord, Hex, Resource
+using ..Hexagon: Coord, Hex
 
 export Board, adj, in
 
 struct Board
     hexs::OffsetArray{Hex,3}
     size::Int
+end
+
+function on(c::Coord, size::Int)
+    abs(c.x) <= size && abs(c.y) <= size && abs(c.z) <= size && c.x + c.y + c.z == 0
 end
 
 function on(c::Coord, b::Board)
