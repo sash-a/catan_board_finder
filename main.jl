@@ -1,20 +1,25 @@
 include("hex.jl")
 include("board.jl")
+include("viz.jl")
 
 using OffsetArrays
-using .Game
+using Random
+using .Game: Board, on
+using .Hexagon: Hex, Coord, Resource, wood, brick, sheep, wheat, ore
+using .Viz: drawboard
 
-hexs = OffsetArray{Game.Hex}(undef, -3:3, -3:3, -3:3)  # -3 -> 3 to accomodate bounds errors
+hexs = OffsetArray{Hexagon.Hex}(undef, -3:3, -3:3, -3:3)  # -3 -> 3 to accomodate bounds errors
 for x in -3:3
     for y in -3:3
         for z in -3:3
-            hexs[x,y,z] = Game.Hex(string(x, y, z), Game.Coord(x, y, z), Game.Hexagon.brick, 1)
+            hexs[x,y,z] = Hex(string(x, y, z), Coord(x, y, z), rand(instances(Resource)), 1)
         end
     end
 end
 
-board = Board(hexs)
+b = Board(hexs, 2)
 
-c = Game.Coord(2, 0, -2)
-println(Game.adj(c, board))
-println(Game.on(c))
+c = Coord(2, 0, -2)
+println(on(c, b))
+
+drawboard(b)

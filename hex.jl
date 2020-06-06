@@ -3,9 +3,9 @@ module Hexagon
 using Base
 import Base.Enums.@enum
 
-export Coord, Hex, Resource
+export Coord, Hex, Resource, wood, brick, sheep, wheat, ore
 
-struct Coord
+mutable struct Coord
     x::Int8
     y::Int8
     z::Int8
@@ -23,7 +23,7 @@ end
 
 Base.show(io::IO, c::Coord) = print(io, "($(c.x), $(c.y), $(c.z))")
 
-struct Hex
+mutable struct Hex
     name::String
     coord::Coord
 
